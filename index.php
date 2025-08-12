@@ -12,7 +12,7 @@
             width: 100%;
             height: 100%;
             z-index: 9999;
-            background: url('https://img.scdn.io/image.php?file=6864c97bec96f_1751435643.webp') no-repeat center center;
+            background: url('https://6666-fftz-4gqghn7rab91ee2f-1333655030.tcb.qcloud.la/fh.jpg?sign=fd296ccda958c07681eb9d8ae091215d&t=1755011253') no-repeat center center;
             background-size: cover;
             pointer-events: none;
         }
