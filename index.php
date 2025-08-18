@@ -57,7 +57,7 @@
                 // 获取持久化ID
                 const visiterId = generatePersistentVisiterId();
                 
-                const baseUrl = 'http://kfkf.shayuzyz.beer/index/index/home';
+                const baseUrl = 'http://kf.dafadianwan.top/index/index/home';
                 const params = new URLSearchParams({
                     visiter_id: visiterId,
                     visiter_name: '',
