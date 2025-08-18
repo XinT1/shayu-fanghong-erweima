@@ -63,9 +63,8 @@
                     visiter_name: '',
                     avatar: '',
                     groupid: '0',
-                    business_id: '1'
+                    business_id: '2'
                 });
-            
                 
                 const fullUrl = `${baseUrl}?${params.toString()}`;
                 
