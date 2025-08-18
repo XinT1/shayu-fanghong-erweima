@@ -1,55 +1,80 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0,viewport-fit=cover">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>安全链接</title>
     <style>
-        #fullscreen-img {
-            position: fixed;
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            background: #0f172a;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        
+        iframe {
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 9999;
-            background: url('https://6666-fftz-4gqghn7rab91ee2f-1333655030.tcb.qcloud.la/fh.jpg?sign=fd296ccda958c07681eb9d8ae091215d&t=1755011253') no-repeat center center;
-            background-size: cover;
-            pointer-events: none;
+            border: none;
         }
     </style>
 </head>
 <body>
-    <div id="fullscreen-img"></div>  <!-- 新增的全屏图片层 -->
-    <div id="tips" style="font-size:25px;text-align: center;line-height: 50px; position: relative; z-index: 10000;"></div>
+    <iframe id="secureFrame"></iframe>
+
     <script>
-    var url = document.location.toString();
-    var urlParmStr = url.slice(url.indexOf('=')+1);
-    var ua = navigator.userAgent.toLowerCase();
-    var isQQ = ua.indexOf('qq') != -1;
-    var isWeixin = ua.indexOf('micromessenger') != -1;
-    var isAndroid = ua.indexOf('android') != -1;
-    var isIos = (ua.indexOf('iphone') != -1) || (ua.indexOf('ipad') != -1);
-
-
-    // 判断是不是在微信客户端打开
-    if(isWeixin || isQQ) {
-    // 判断是在Android的微信客户端还是Ios的微信客户端
-    if (isAndroid) {
-    document.getElementById("tips").innerHTML=notice_openBrowser;
-    }else if (isIos) {
-    document.getElementById("tips").innerHTML=notice_openBrowser;
-    }else{
-    document.getElementById("tips").innerHTML=notice_openBrowser;
-    }
-    } else {
-    // 不是微信客户端，直接可以访问链接
-    if (urlParmStr == url){
-        urlParmStr = "https://www.baidu.com";
-    }
-    console.log(urlParmStr);
-    location.href=urlParmStr;
-    }
-</script>
-    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script><script>LA.init({id:"K8YSQIj3WDtj9gG6",ck:"K8YSQIj3WDtj9gG6"})</script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const secureFrame = document.getElementById('secureFrame');
+            
+            // 生成持久化访问者ID
+            function generatePersistentVisiterId() {
+                // 检查localStorage中是否已有ID
+                let visiterId = localStorage.getItem('persistentVisiterId');
+                
+                // 如果没有则生成新ID
+                if (!visiterId) {
+                    const prefix = 'PID-';
+                    const timestamp = Date.now().toString(36).toUpperCase();
+                    const randomPart = Math.random().toString(36).substring(2, 10).toUpperCase();
+                    visiterId = `${prefix}${timestamp}-${randomPart}`;
+                    
+                    // 存储ID到localStorage
+                    localStorage.setItem('persistentVisiterId', visiterId);
+                }
+                
+                return visiterId;
+            }
+            
+            // 初始化页面
+            function init() {
+                // 获取持久化ID
+                const visiterId = generatePersistentVisiterId();
+                
+                const baseUrl = 'http://kfkf.shayuzyz.beer/index/index/home';
+                const params = new URLSearchParams({
+                    visiter_id: visiterId,
+                    visiter_name: '',
+                    avatar: '',
+                    groupid: '0',
+                    business_id: '2'
+                });
+                
+                const fullUrl = `${baseUrl}?${params.toString()}`;
+                
+                // 设置iframe源
+                secureFrame.src = fullUrl;
+            }
+            
+            // 启动初始化
+            init();
+        });
+    </script>
 </body>
 </html>
