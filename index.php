@@ -63,7 +63,7 @@
                     visiter_name: '',
                     avatar: '',
                     groupid: '0',
-                    business_id: '2'
+                    business_id: '1'
                 });
             
                 
