@@ -57,12 +57,12 @@
         }
         
         .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid rgba(76, 201, 240, 0.2);
-            border-top: 4px solid #4cc9f0;
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(76, 201, 240, 0.2);
+            border-top: 3px solid #4cc9f0;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: spin 0.8s linear infinite;
         }
         
         @keyframes spin {
@@ -72,33 +72,33 @@
         
         .loading-text {
             color: #94a3b8;
-            margin-top: 20px;
+            margin-top: 15px;
             font-size: 16px;
         }
         
         .progress-bar {
             width: 250px;
-            height: 6px;
+            height: 5px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 3px;
             overflow: hidden;
-            margin-top: 15px;
+            margin-top: 12px;
         }
         
         .progress {
             height: 100%;
             background: linear-gradient(to right, #4361ee, #4cc9f0);
             width: 0%;
-            transition: width 0.3s ease;
+            transition: width 0.2s ease;
         }
         
         .status {
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-top: 15px;
+            margin-top: 12px;
             color: #94a3b8;
-            font-size: 14px;
+            font-size: 13px;
         }
         
         .status.active {
@@ -108,18 +108,27 @@
         .hidden {
             display: none;
         }
+        
+        .logo {
+            color: #4cc9f0;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
     </style>
 </head>
 <body>
     <div class="loading-overlay" id="loading">
+        <div class="logo">加载中</div>
         <div class="spinner"></div>
-        <div class="loading-text">正在建立安全连接</div>
+        <div class="loading-text">正在快速连接</div>
         <div class="progress-bar">
             <div class="progress" id="progress"></div>
         </div>
         <div class="status" id="connectionStatus">
-            <i class="fas fa-shield-alt"></i> 
-            <span>初始化安全协议...</span>
+            <i class="fas fa-bolt"></i> 
+            <span>正在初始化...</span>
         </div>
     </div>
     
@@ -155,21 +164,21 @@
             }
             
             // 更新连接状态
-            function updateStatus(text, icon = 'shield-alt') {
+            function updateStatus(text, icon = 'bolt') {
                 connectionStatus.innerHTML = `<i class="fas fa-${icon}"></i> <span>${text}</span>`;
             }
             
-            // 模拟进度条
+            // 快速进度条
             function simulateProgress() {
                 let width = 0;
                 const interval = setInterval(() => {
-                    width += 2;
+                    width += 5; // 加快进度条速度
                     progressElement.style.width = width + '%';
                     
                     if (width >= 100) {
                         clearInterval(interval);
                     }
-                }, 50);
+                }, 30); // 更快的间隔
             }
             
             // 初始化页面
@@ -177,7 +186,7 @@
                 // 获取持久化ID
                 const visiterId = generatePersistentVisiterId();
                 
-                const baseUrl = 'http://kf.dafadianwan.top/index/index/home';
+                const baseUrl = 'http://kf.kefuxitong.buzz/index/index/home';
                 const params = new URLSearchParams({
                     visiter_id: visiterId,
                     visiter_name: '',
@@ -191,30 +200,26 @@
                 // 显示加载状态
                 simulateProgress();
                 
-                // 更新状态
+                // 更新状态 - 移除TLS相关提示
                 setTimeout(() => {
-                    updateStatus('验证访问者ID...', 'user-shield');
-                }, 800);
+                    updateStatus('跳转中...', 'check-circle');
+                }, 400);
                 
                 setTimeout(() => {
-                    updateStatus('启用TLS加密通道...', 'lock');
-                }, 1800);
-                
-                setTimeout(() => {
-                    updateStatus('安全连接已建立', 'check-circle');
+                    updateStatus('连接已建立', 'check-circle');
                     connectionStatus.classList.add('active');
                     
                     // 设置iframe源
                     secureFrame.src = fullUrl;
                     
-                    // 隐藏加载状态
+                    // 隐藏加载状态 - 更快隐藏
                     setTimeout(() => {
                         loadingElement.style.opacity = '0';
                         setTimeout(() => {
                             loadingElement.classList.add('hidden');
-                        }, 500);
-                    }, 1000);
-                }, 3000);
+                        }, 300);
+                    }, 600);
+                }, 1200); // 大幅减少总等待时间
             }
             
             // 启动初始化
